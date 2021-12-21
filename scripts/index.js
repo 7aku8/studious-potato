@@ -8,13 +8,17 @@ const ctx = canvas.getContext('2d')
 const mouse = {
   x: null,
   y: null,
-  radius: 400
+  radius: 400,
+  active: false
 }
 
 document.onmousemove = ({ x, y }) => {
   mouse.x = x
   mouse.y = y
 }
+
+document.onmouseover = () => mouse.active = true
+document.onmouseleave = () => mouse.active = false
 
 class Particle {
   constructor ({ x, y }) {
@@ -44,7 +48,7 @@ class Particle {
     this.y += this.dy
 
     const { distance, dx, dy } = this.mouseDistance()
-    if (distance < mouse.radius) {
+    if (distance < mouse.radius && mouse.active) {
       const forceDirectionX = dx / distance
       const forceDirectionY = dy / distance
 
